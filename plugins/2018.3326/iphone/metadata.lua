@@ -4,9 +4,9 @@ local metadata =
 	{
 		format = 'staticLibrary',
 
-		staticLibs = {'IASDKCore', "c++", "sqlite3", "z", "xml2"},
+		staticLibs = {'IASDKCore', "c++", "sqlite3", "z", "xml2", "FyberAdapter"},
 
-		frameworks = {"AppLovinMediationFyberAdapter"},
+		frameworks = {},
 		frameworksOptional = {},
 	},
 	coronaManifest = {
