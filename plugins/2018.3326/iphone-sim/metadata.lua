@@ -4,7 +4,9 @@ local metadata =
 	{
 		format = 'staticLibrary',
 
-		staticLibs = {'IASDKCore', "c++", "sqlite3", "z", "xml2", "FyberAdapter"},
+		-- This is the name without the 'lib' prefix.
+		-- In this case, the static library is called: libSTATIC_LIB_NAME.a
+		staticLibs = {'IASDKCore', "c++", "sqlite3", "z", "xml2", "FyberAdapter"}, 
 
 		frameworks = {},
 		frameworksOptional = {},
