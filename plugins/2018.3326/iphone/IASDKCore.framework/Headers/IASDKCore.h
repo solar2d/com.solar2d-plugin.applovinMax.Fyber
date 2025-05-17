@@ -50,26 +50,20 @@ FOUNDATION_EXPORT const unsigned char IASDKCoreVersionString[];
 #import <IASDKCore/IACoppaApplies.h>
 #import <IASDKCore/FMPBiddingManager.h>
 
-#import <IASDKCore/IASDKMRAID.h>
-
 #import <IASDKCore/IAMRAIDContentController.h>
 #import <IASDKCore/IAMRAIDContentDelegate.h>
 #import <IASDKCore/IAMRAIDContentModel.h>
 
-#import <IASDKCore/IASDKVideo.h>
-
 #import <IASDKCore/IAVideoContentController.h>
 #import <IASDKCore/IAVideoContentDelegate.h>
-#import <IASDKCore/IAVideoLayout.h>
 #import <IASDKCore/IAVideoContentModel.h>
-#import <IASDKCore/IAVideoView.h>
 
 typedef void (^IASDKCoreInitBlock)(BOOL success, NSError * _Nullable error);
 
 typedef NS_ENUM(NSInteger, IASDKCoreInitErrorType) {
     IASDKCoreInitErrorTypeUnknown = 0,
     IASDKCoreInitErrorTypeFailedToDownloadMandatoryData = 1,
-    IASDKCoreInitErrorTypeMissingModules = 2,
+    IASDKCoreInitErrorTypeMissingModules __attribute__((deprecated)) = 2,
     IASDKCoreInitErrorTypeInvalidAppID = 3,
     IASDKCoreInitErrorTypeCancelled = 4
 };
@@ -157,7 +151,6 @@ typedef NS_ENUM(NSInteger, IASDKCoreInitErrorType) {
  */
 @property (atomic) IALGPDConsentType LGPDConsent;
 
-
 /**
  *  @brief The COPPA complience status.
  *
@@ -199,10 +192,9 @@ typedef NS_ENUM(NSInteger, IASDKCoreInitErrorType) {
 @property (nonatomic, nullable) IAUserData *userData;
 
 /**
- *  @brief Single keyword string or several keywords, separated by comma.
- *  @discussion These keywords will be used in bidding flow, while bidding token creation.
+ *  @brief Deprecated.
  */
-@property (nonatomic, nullable) NSString *keywords;
+@property (nonatomic, nullable) NSString *keywords DEPRECATED_MSG_ATTRIBUTE("This API is deprecated.");
 
 /**
  *  @brief In case is enabled and the responded creative supports this feature, the creative will start interacting without sound.
@@ -227,18 +219,15 @@ typedef NS_ENUM(NSInteger, IASDKCoreInitErrorType) {
 + (instancetype _Null_unspecified)sharedInstance;
 
 /**
- *  @brief Initialisation of the SDK. Must be invoked before requesting the ads.
- *
- *  @discussion Should be invoked on the main thread. Otherwise it will convert the flow to the main thread. Is asynchronous method.
- *
- *  @param appID A required param. Must be a valid application ID, otherwise the SDK will not be able to request/render the ads.
+ *  @brief This API is deprecated, please use `initWithAppID:completionBlock:completionQueue:` instead.
  */
-- (void)initWithAppID:(NSString * _Nonnull)appID;
+- (void)initWithAppID:(NSString * _Nonnull)appID
+DEPRECATED_MSG_ATTRIBUTE("This API is deprecated, please use `initWithAppID:completionBlock:completionQueue:` instead");
 
 /**
- *  @brief Initialisation of the SDK. Must be invoked before requesting the ads.
+ *  @brief Initialization of the SDK. Must be invoked before requesting ads.
  *
- *  @discussion Should be invoked on the main thread. Otherwise it will convert the flow to the main thread. Is asynchronous method.
+ *  @discussion If not called on the main thread it will be converted to the main thread. Is asynchronous method.
  *
  *  @param appID A required param. Must be a valid application ID, otherwise the SDK will not be able to request/render the ads.
  *
@@ -266,13 +255,5 @@ typedef NS_ENUM(NSInteger, IASDKCoreInitErrorType) {
  *  @brief Clears all the LGPD related information. The state of the `LGPDConsent` property will become `-1` or `IALGPDConsentTypeUnknown`.
  */
 - (void)clearLGPDConsentData;
-
-/**
- *  @brief Enable in order to manage audio session on behalf of SDK.
- *
- *  @discussion Resolves an occasional issue wnen there is no sound in VAST in iPadOS 16.1+ on certain iPads, in case AVAudioSession isn't managed explicitly in host app.
- *  This method isn't thread-safe and should be used immediately after SDK init.
- */
-- (void)enableAutomaticAudioSessionManagement;
 
 @end
